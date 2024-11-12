@@ -1,0 +1,10 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript",  "prettier", "airbnb", "airbnb-typescript"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "import/prefer-default-export": "off"
+  }
+}
