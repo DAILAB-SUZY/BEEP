@@ -1,0 +1,39 @@
+services:
+  beep-mysql:
+    image: mysql:8
+    container_name: beep-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3305:3306"
+    networks:
+      - beep-network
+    volumes:
+      - beep-data:/var/lib/mysql
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - beep-network
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_USER_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    depends_on:
+      - beep-mysql
+    ports:
+      - "8080:8080"
+    entrypoint: ["sh", "-c", "java -jar app.jar --spring.profiles.active=realEnv"]
+networks:
+  beep-network:
+    driver: bridge
+
+volumes:
+  beep-data:
+    driver: local
