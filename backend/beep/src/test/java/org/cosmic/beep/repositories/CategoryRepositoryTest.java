@@ -1,6 +1,6 @@
 package org.cosmic.beep.repositories;
 
-import java.util.List;
+import java.util.Optional;
 import org.cosmic.beep.entities.Category;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +20,7 @@ public class CategoryRepositoryTest {
   public void categoryCreationTest() {
     categoryRepository.save(Category.from("A-01", 3L, 7L));
 
-    List<Category> category = categoryRepository.findByName("A-01");
+    Optional<Category> category = categoryRepository.findByName("A-01");
 
     Assertions.assertFalse(category.isEmpty());
   }

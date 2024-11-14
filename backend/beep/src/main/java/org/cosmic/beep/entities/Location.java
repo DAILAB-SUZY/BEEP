@@ -33,4 +33,11 @@ public class Location {
   @OneToMany(mappedBy = "location")
   @Builder.Default
   private List<Item> items = new ArrayList<>();
+
+  public static Location from(String name, String description) {
+    return Location.builder()
+        .name(name)
+        .description(description)
+        .build();
+  }
 }
