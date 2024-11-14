@@ -19,7 +19,7 @@ public class Item {
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
-  private String id;
+  private Long id;
   private String name;
   private String description;
   private String thumbnail;

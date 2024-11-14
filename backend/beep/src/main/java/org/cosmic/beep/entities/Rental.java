@@ -19,7 +19,7 @@ public class Rental {
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
-  private String id;
+  private Long id;
 
   @ManyToOne
   @JoinColumn(name = "member_id")

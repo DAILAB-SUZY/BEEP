@@ -5,21 +5,35 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Builder
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Member {
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
-  private String id;
+  private Long id;
 
   private String username;
 
   @OneToMany(mappedBy = "member")
-  private Set<Rental> rentals;
+  @Builder.Default
+  private List<Rental> rentals = new ArrayList<>();
+
+  public static Member from(String username) {
+    return Member.builder()
+        .username(username)
+        .build();
+  }
 }
