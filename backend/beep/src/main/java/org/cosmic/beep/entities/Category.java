@@ -35,4 +35,11 @@ public class Category {
   @Builder.Default
   private List<Item> items = new ArrayList<>();
 
+  public static Category from(String name, Long maximumRental, Long expirationTime) {
+    return Category.builder()
+        .name(name)
+        .maximumRental(maximumRental)
+        .expirationTime(expirationTime)
+        .build();
+  }
 }
