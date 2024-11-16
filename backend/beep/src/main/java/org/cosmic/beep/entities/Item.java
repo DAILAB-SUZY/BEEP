@@ -37,7 +37,7 @@ public class Item {
   private Category category;
 
   @ManyToOne
-  @JoinColumn(name = "location_id")
+  @JoinColumn(name = "location_id", nullable = false)
   private Location location;
 
   @OneToOne(mappedBy = "item")
@@ -46,12 +46,14 @@ public class Item {
   public static Item from(
       @NonNull String name,
       @NonNull String description,
-      @NonNull Category category
+      @NonNull Category category,
+      @NonNull Location location
   ) {
     return Item.builder()
         .name(name)
         .description(description)
         .category(category)
+        .location(location)
         .build();
   }
 
