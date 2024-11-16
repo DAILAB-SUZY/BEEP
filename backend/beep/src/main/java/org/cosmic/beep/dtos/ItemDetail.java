@@ -1,5 +1,6 @@
 package org.cosmic.beep.dtos;
 
+import java.util.List;
 import org.cosmic.beep.entities.Item;
 import org.springframework.lang.NonNull;
 
@@ -27,5 +28,9 @@ public record ItemDetail(
         item.getRentPeriod(),
         item.isRentalAvailable()
     );
+  }
+
+  public static List<ItemDetail> from(List<Item> items) {
+    return items.stream().map(ItemDetail::from).toList();
   }
 }
