@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import jakarta.transaction.Transactional;
+import java.util.List;
 import org.cosmic.beep.entities.Category;
 import org.cosmic.beep.entities.Item;
 import org.cosmic.beep.entities.Location;
@@ -23,6 +24,8 @@ class RentalRepositoryTest {
   private RentalRepository rentalRepository;
   @Autowired
   private TestEntityManager testEntityManager;
+  @Autowired
+  private ItemRepository itemRepository;
 
   @Test
   @DisplayName("아무것도 빌린 것이 없을 때")
@@ -47,5 +50,20 @@ class RentalRepositoryTest {
     assertEquals(1, rentalRepository.findByMember_Id(member.getId()).size());
     assertNotNull(rental.getRentalLog());
 
+  }
+
+  @Test
+  @DisplayName("반납할 때 확인")
+  @Transactional
+  void deleteByItemIdIn() {
+    Member member = testEntityManager.persist(Member.from("testman"));
+    Category category = testEntityManager.persist(Category.from("test", 3L, 14L));
+    Location location = testEntityManager.persist(Location.from("test", "test"));
+    Item item = testEntityManager.persist(Item.from("M-01", "this is good", category, location));
+    Rental rental = Rental.from(member, item);
+    rental.setRentalLog(testEntityManager.persist(RentalLog.from(rental)));
+    testEntityManager.persist(rental);
+    List<Rental> deleted = rentalRepository.deleteByItem_IdIn(List.of(item.getId()));
+    assertEquals(1, deleted.size());
   }
 }
