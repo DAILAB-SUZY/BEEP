@@ -1,9 +1,11 @@
 package org.cosmic.beep.repositories;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.cosmic.beep.entities.Category;
 import org.cosmic.beep.entities.Item;
+import org.cosmic.beep.entities.Location;
 import org.cosmic.beep.entities.Member;
 import org.cosmic.beep.entities.Rental;
 import org.junit.jupiter.api.DisplayName;
@@ -32,8 +34,11 @@ class RentalRepositoryTest {
   void findByMemberId2() {
     Member member = testEntityManager.persist(Member.from("testman"));
     Category category = testEntityManager.persist(Category.from("test", 3L, 14L));
-    Item item = testEntityManager.persist(Item.from("M-01", "this is good", category));
-    testEntityManager.persist(Rental.from(member, item));
+    Location location = testEntityManager.persist(Location.from("test", "test"));
+    Item item = testEntityManager.persist(Item.from("M-01", "this is good", category, location));
+    Rental rental = testEntityManager.persist(Rental.from(member, item));
+    assertEquals(false, rental.getIsExtension());
+    assertNotNull(rental.getReturnDate());
     assertEquals(1, rentalRepository.findByMember_Id(member.getId()).size());
   }
 }
