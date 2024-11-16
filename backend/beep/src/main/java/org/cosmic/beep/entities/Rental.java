@@ -9,12 +9,19 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import java.time.Instant;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.NonNull;
 
 @Entity
+@Builder
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Rental {
 
   @Id
@@ -22,16 +29,23 @@ public class Rental {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "member_id")
+  @JoinColumn(name = "member_id", nullable = false)
   private Member member;
 
   @OneToOne
-  @JoinColumn(name = "item_id")
+  @JoinColumn(name = "item_id", nullable = false)
   private Item item;
 
   private Instant returnDate;
 
   private Boolean isExtension;
+
+  public static Rental from(@NonNull Member member, @NonNull Item item) {
+    return Rental.builder()
+        .member(member)
+        .item(item)
+        .build();
+  }
 
   @PrePersist
   public void prePersist() {
