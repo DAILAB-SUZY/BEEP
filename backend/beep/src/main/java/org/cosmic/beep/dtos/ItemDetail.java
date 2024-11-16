@@ -16,7 +16,7 @@ public record ItemDetail(
     Boolean isRentable
 ) {
 
-  static ItemDetail from(@NonNull Item item) {
+  public static ItemDetail from(@NonNull Item item) {
     return new ItemDetail(
         item.getId(),
         item.getName(),

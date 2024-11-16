@@ -8,12 +8,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import java.time.Instant;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Builder
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RentalLog {
 
   @Id
@@ -35,5 +41,12 @@ public class RentalLog {
   @PrePersist
   public void perPersist() {
     setRentDate(Instant.now());
+  }
+
+  public static RentalLog from(Rental rental) {
+    return RentalLog.builder()
+        .member(rental.getMember())
+        .item(rental.getItem())
+        .build();
   }
 }
