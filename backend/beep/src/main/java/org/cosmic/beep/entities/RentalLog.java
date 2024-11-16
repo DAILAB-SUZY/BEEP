@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
@@ -27,16 +28,19 @@ public class RentalLog {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "member_id")
+  @JoinColumn(name = "member_id", nullable = false)
   private Member member;
 
   @ManyToOne
-  @JoinColumn(name = "item_id")
+  @JoinColumn(name = "item_id", nullable = false)
   private Item item;
 
   private Instant rentDate;
 
   private Instant returnDate;
+
+  @OneToOne(mappedBy = "rentalLog")
+  private Rental rental;
 
   @PrePersist
   public void perPersist() {
@@ -48,5 +52,9 @@ public class RentalLog {
         .member(rental.getMember())
         .item(rental.getItem())
         .build();
+  }
+
+  public void returnItem() {
+    setReturnDate(Instant.now());
   }
 }

@@ -40,6 +40,10 @@ public class Rental {
 
   private Boolean isExtension;
 
+  @OneToOne
+  @JoinColumn(name = "rental_log_id", nullable = false)
+  private RentalLog rentalLog;
+
   public static Rental from(@NonNull Member member, @NonNull Item item) {
     return Rental.builder()
         .member(member)
