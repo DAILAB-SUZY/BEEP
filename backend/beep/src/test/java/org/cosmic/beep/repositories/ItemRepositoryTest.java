@@ -7,6 +7,7 @@ import org.cosmic.beep.entities.Item;
 import org.cosmic.beep.entities.Location;
 import org.cosmic.beep.entities.Member;
 import org.cosmic.beep.entities.Rental;
+import org.cosmic.beep.entities.RentalLog;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,10 @@ class ItemRepositoryTest {
     testEntityManager.persist(Item.from("아이템2", "설명", category, location));
     testEntityManager.persist(Item.from("아이템3", "설명", category, location));
     testEntityManager.persist(Item.from("아이템4", "설명", category, location));
-    testEntityManager.persist(Rental.from(member, item1));
+    Rental rental = Rental.from(member, item1);
+    RentalLog log = testEntityManager.persist(RentalLog.from(rental));
+    rental.setRentalLog(log);
+    testEntityManager.persist(rental);
 
     assertEquals(3, itemRepository.findByRentalNull().size());
   }
