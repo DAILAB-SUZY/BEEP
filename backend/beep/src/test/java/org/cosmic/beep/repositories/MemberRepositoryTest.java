@@ -1,7 +1,7 @@
 package org.cosmic.beep.repositories;
 
 import jakarta.transaction.Transactional;
-import java.util.List;
+import java.util.Optional;
 import org.cosmic.beep.entities.Member;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +20,7 @@ public class MemberRepositoryTest {
   @Transactional
   public void memberCreationTest() {
     memberRepository.save(Member.from("testman"));
-    List<Member> member = memberRepository.findByUsername("testman");
+    Optional<Member> member = memberRepository.findByUsername("testman");
     Assertions.assertFalse(member.isEmpty());
   }
 
@@ -29,7 +29,7 @@ public class MemberRepositoryTest {
   @Transactional
   public void memberDefaultRentalTest() {
     memberRepository.save(Member.from("testman"));
-    List<Member> member = memberRepository.findByUsername("testman");
-    Assertions.assertEquals(0, member.get(0).getRentals().size());
+    Optional<Member> member = memberRepository.findByUsername("testman");
+    Assertions.assertEquals(0, member.get().getRentals().size());
   }
 }

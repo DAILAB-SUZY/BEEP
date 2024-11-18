@@ -31,7 +31,7 @@ class RentalRepositoryTest {
   @DisplayName("아무것도 빌린 것이 없을 때")
   void findByMemberId() {
     Member member = testEntityManager.persist(Member.from("testman"));
-    assertEquals(0, rentalRepository.findByMember_Id(member.getId()).size());
+    assertEquals(0, rentalRepository.findByMember_Username("testman").size());
   }
 
   @Test
@@ -47,7 +47,7 @@ class RentalRepositoryTest {
     rental = rentalRepository.save(rental);
     assertEquals(false, rental.getIsExtension());
     assertNotNull(rental.getReturnDate());
-    assertEquals(1, rentalRepository.findByMember_Id(member.getId()).size());
+    assertEquals(1, rentalRepository.findByMember_Username("testman").size());
     assertNotNull(rental.getRentalLog());
 
   }

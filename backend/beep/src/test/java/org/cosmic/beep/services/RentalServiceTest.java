@@ -29,8 +29,8 @@ class RentalServiceTest {
   @Test
   @DisplayName("빌린 것이 없을 때")
   void getMemberRentals() {
-    when(rentalRepository.findByMember_Id(1L)).thenReturn(List.of());
-    Assertions.assertEquals(0, rentalService.getMemberRentals(1L).size());
+    when(rentalRepository.findByMember_Username("testman")).thenReturn(List.of());
+    Assertions.assertEquals(0, rentalService.getMemberRentals("testman").size());
   }
 
   @Test
@@ -44,7 +44,7 @@ class RentalServiceTest {
             Location.from("test", "test")
         )
     );
-    when(rentalRepository.findByMember_Id(1L)).thenReturn(List.of(rental));
-    Assertions.assertEquals(1, rentalService.getMemberRentals(1L).size());
+    when(rentalRepository.findByMember_Username("testman")).thenReturn(List.of(rental));
+    Assertions.assertEquals(1, rentalService.getMemberRentals("testman").size());
   }
 }

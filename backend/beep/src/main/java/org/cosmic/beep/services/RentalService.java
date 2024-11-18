@@ -24,13 +24,14 @@ public class RentalService {
   private final ItemRepository itemRepository;
   private final RentalLogRepository rentalLogRepository;
 
-  public List<RentalDetail> getMemberRentals(@NonNull Long memberId) {
-    return RentalDetail.from(rentalRepository.findByMember_Id(memberId));
+  public List<RentalDetail> getMemberRentals(@NonNull String memberName) {
+    return RentalDetail.from(rentalRepository.findByMember_Username(memberName));
   }
 
   @Transactional
-  public void rentalItem(List<Long> itemsId, @NonNull Long memberId) {
-    Member member = memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
+  public void rentalItem(List<Long> itemsId, @NonNull String memberName) {
+    Member member = memberRepository.findByUsername(memberName)
+        .orElseThrow(EntityNotFoundException::new);
     List<Rental> rentals = itemRepository.findByIdIn(itemsId).stream()
         .map(item -> Rental.from(member, item))
         .toList();

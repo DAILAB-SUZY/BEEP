@@ -9,7 +9,7 @@ import org.springframework.lang.NonNull;
 
 public interface RentalRepository extends JpaRepository<Rental, Long> {
 
-  List<Rental> findByMember_Id(@NonNull Long id);
+  List<Rental> findByMember_Username(@NonNull String id);
 
   List<Rental> findByItem_IdIn(Collection<Long> ids);
 
