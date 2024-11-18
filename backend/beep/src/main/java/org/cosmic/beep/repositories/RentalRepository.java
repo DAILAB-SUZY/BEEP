@@ -2,6 +2,7 @@ package org.cosmic.beep.repositories;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import org.cosmic.beep.entities.Item;
 import org.cosmic.beep.entities.Rental;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,6 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
   List<Rental> deleteByItemIn(Collection<Item> items);
 
   List<Rental> deleteByItem_IdIn(List<Long> itemsId);
+
+  Optional<Rental> findByMember_UsernameAndItem_Id(String username, Long itemId);
 }

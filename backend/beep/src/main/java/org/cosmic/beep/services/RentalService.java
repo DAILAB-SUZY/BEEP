@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.cosmic.beep.dtos.RentalDetail;
+import org.cosmic.beep.dtos.RentalInfo;
 import org.cosmic.beep.entities.Member;
 import org.cosmic.beep.entities.Rental;
 import org.cosmic.beep.entities.RentalLog;
@@ -44,5 +45,13 @@ public class RentalService {
     List<Rental> deleted = rentalRepository.deleteByItem_IdIn(itemsId);
     rentalLogRepository.findByRentalIn(deleted).forEach(RentalLog::returnItem);
     rentalRepository.deleteAll();
+  }
+
+  @Transactional
+  public RentalInfo expendDuration(Long itemId, String username) {
+    Rental rental = rentalRepository.findByMember_UsernameAndItem_Id(username, itemId)
+        .orElseThrow(IllegalArgumentException::new);
+    rental.extend();
+    return RentalInfo.from(rental);
   }
 }
